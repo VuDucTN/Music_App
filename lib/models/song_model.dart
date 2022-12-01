@@ -13,7 +13,7 @@ class Song {
   static List<Song> songs = [
     Song(
         title: '1 triệu like',
-        description: '1 triệu like',
+        description: 'Đen Vâu',
         url: 'music/1.mp3',
         coverUrl: 'images/1.png'),
     // Song(title: 'Blinding Lights',

@@ -125,6 +125,7 @@ class _MusicPlayer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 song.title,
@@ -137,8 +138,13 @@ class _MusicPlayer extends StatelessWidget {
                 width: 275,
               ),
               LikeButton(
-                size: 30,
-                countPostion: CountPostion.bottom,
+                likeBuilder: (isTapped) {
+                  return Icon(
+                    Icons.favorite,
+                    color: isTapped ? Color(0xff24EBCA) : Color(0xFF899CCF),
+                    size: 30,
+                  );
+                },
               )
             ],
           ),
