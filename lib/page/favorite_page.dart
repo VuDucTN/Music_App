@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:like_button/like_button.dart';
 import 'package:music/page/Song_screen.dart';
 import '../models/song_model.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class _FavoriteState extends State<Favorite> {
   Song song = Get.arguments ?? Song.songs[0];
 
   int activeTab = 0;
+  bool isPressed = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +29,8 @@ class _FavoriteState extends State<Favorite> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-            Color(0xFF303151).withOpacity(0.6),
-            Color(0xFF303151).withOpacity(0.9),
+            Color(0xff151521).withOpacity(0.6),
+            Color(0xff151521).withOpacity(0.9),
           ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -42,15 +44,18 @@ class _FavoriteState extends State<Favorite> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () {
-                          // Navigation.pop(Contend);
-                        },
-                        child: Icon(
-                          Icons.favorite,
-                          color: Color(0xFF899CCF),
-                          size: 30,
-                        ),
-                      ),
+                          onTap: () {},
+                          child: LikeButton(
+                            likeBuilder: (isTapped) {
+                              return Icon(
+                                Icons.favorite,
+                                color: isTapped
+                                    ? Color(0xff24EBCA)
+                                    : Color(0xFF899CCF),
+                                size: 30,
+                              );
+                            },
+                          )),
                       ClipRRect(
                           child: Image.asset(
                         'images/Elip3.png',
@@ -59,13 +64,19 @@ class _FavoriteState extends State<Favorite> {
                         fit: BoxFit.cover,
                       )),
                       InkWell(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.more_horiz,
-                          color: Color(0xFF899CCF),
-                          size: 30,
-                        ),
-                      ),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.only(),
+                            child: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(child: Icon(Icons.download)),
+                              ],
+                              child: Icon(
+                                Icons.more_horiz,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )),
                     ],
                   ),
                 ),
