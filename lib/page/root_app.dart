@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music/page/Song_screen.dart';
 import 'package:music/page/dowload_page.dart';
 import 'package:music/page/favorite_page.dart';
+import 'package:music/page/home.dart';
 import 'package:music/page/user_page.dart';
 
 class RootApp extends StatefulWidget {
@@ -27,13 +28,7 @@ class _RootAppState extends State<RootApp> {
     return IndexedStack(
       index: activeTab,
       children: [
-        Center(
-          child: Text(
-            "Home",
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
+        HomePage(),
         Favorite(),
         SongScreen(),
         DowloadPage(),

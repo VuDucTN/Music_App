@@ -37,7 +37,7 @@ class _SeekBarState extends State<SeekBar> {
     } else {
       String minutes = duration.inMinutes.toString().padLeft(2, '0');
       String seconds =
-      duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+          duration.inSeconds.remainder(60).toString().padLeft(2, '0');
       return '$minutes:$seconds';
     }
   }
@@ -99,10 +99,17 @@ class _SeekBarState extends State<SeekBar> {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(_formatDuration(widget.position),style: TextStyle(color: Colors.white),),
+            Text(
+              _formatDuration(widget.position),
+              style: TextStyle(color: Colors.white),
+            ),
             SizedBox(width: 370),
-            Text(_formatDuration(widget.duration),style: TextStyle(color: Colors.white),),
+            Text(
+              _formatDuration(widget.duration),
+              style: TextStyle(color: Colors.white),
+            ),
           ],
         ),
       ],
