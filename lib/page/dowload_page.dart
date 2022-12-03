@@ -1,6 +1,9 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../models/song_model.dart';
 
 class DowloadPage extends StatefulWidget {
   const DowloadPage({Key? key}) : super(key: key);
@@ -10,6 +13,7 @@ class DowloadPage extends StatefulWidget {
 }
 
 class _DowloadPageState extends State<DowloadPage> {
+  Song song = Get.arguments ?? Song.songs[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,30 +44,31 @@ class _DowloadPageState extends State<DowloadPage> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Column(children: [
             Container(
-              width: 500,
+              width: MediaQuery.of(context).size.width,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Image.asset(
-                    "images/music.png",
+                    song.coverUrl,
                     height: 100,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Waiting for you!",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Lorem ipsum dolor sit amet",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+                  Container(
+                    width: 300,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          song.title,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          song.description,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(),
