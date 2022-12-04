@@ -1,6 +1,12 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/circular_reveal_clipper.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import '../models/song_model.dart';
 
 class DowloadPage extends StatefulWidget {
   const DowloadPage({Key? key}) : super(key: key);
@@ -10,6 +16,7 @@ class DowloadPage extends StatefulWidget {
 }
 
 class _DowloadPageState extends State<DowloadPage> {
+  Song song = Get.arguments ?? Song.songs[2];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +24,12 @@ class _DowloadPageState extends State<DowloadPage> {
       body: getBody(),
     );
   }
+
+  int downloadProgress = 0;
+
+  bool isDownloadStarted = false;
+
+  bool isDownloadFinish = false;
 
   Widget getBody() {
     return SingleChildScrollView(
@@ -40,43 +53,65 @@ class _DowloadPageState extends State<DowloadPage> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Column(children: [
             Container(
-              width: 500,
+              width: MediaQuery.of(context).size.width,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  SizedBox(
+                    width: 50,
+                  ),
                   Image.asset(
-                    "images/music.png",
+                    song.coverUrl,
                     height: 100,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Waiting for you!",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Lorem ipsum dolor sit amet",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+                  Container(
+                    width: 300,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          song.title,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          song.description,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(),
-                    child: PopupMenuButton(
-                      itemBuilder: (context) => [
-                        PopupMenuItem(child: Icon(Icons.download)),
-                        PopupMenuItem(child: Icon(Icons.delete)),
-                      ],
-                      child: Icon(
-                        Icons.more_horiz,
-                        color: Colors.white,
+                    child: Column(children: [
+                      Visibility(
+                          visible: isDownloadStarted,
+                          child: CircularPercentIndicator(
+                            radius: 20.0,
+                            lineWidth: 3,
+                            percent: (downloadProgress / 100),
+                            center: Text(
+                              "$downloadProgress%",
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.blue),
+                            ),
+                          )),
+                      Visibility(
+                        visible: !isDownloadStarted,
+                        child: IconButton(
+                            onPressed: downloadCourse,
+                            icon: isDownloadFinish
+                                ? Icon(
+                                    Icons.check,
+                                    color: Colors.greenAccent,
+                                  )
+                                : Icon(
+                                    Icons.download,
+                                    color: Colors.white,
+                                  )),
                       ),
-                    ),
+                    ]),
                   )
                 ],
               ),
@@ -88,5 +123,24 @@ class _DowloadPageState extends State<DowloadPage> {
         ),
       ]),
     );
+  }
+
+  void downloadCourse() async {
+    isDownloadStarted = true;
+    isDownloadFinish = false;
+    downloadProgress = 0;
+    setState(() {});
+
+    while (downloadProgress < 100) {
+      downloadProgress += 10;
+      setState(() {});
+      if (downloadProgress == 100) {
+        isDownloadFinish = true;
+        isDownloadStarted = false;
+        setState(() {});
+        break;
+      }
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
   }
 }
