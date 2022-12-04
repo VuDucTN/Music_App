@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music/Widgets/player_buttons.dart';
+import 'package:music/models/playlist_model.dart';
 import 'package:rxdart/rxdart.dart' as rxdart;
 import 'package:like_button/like_button.dart';
 
@@ -18,12 +19,14 @@ class SongScreen extends StatefulWidget {
 
 class _SongScreenState extends State<SongScreen> {
   AudioPlayer audioPlayer = AudioPlayer();
-  Song song = Get.arguments ?? Song.songs[0];
+  List<Playlist> playlists = Playlist.playlist;
+  Song song = Get.arguments ?? Song.songs[index];
+
+  static get index => 0;
 
   @override
   void initState() {
     super.initState();
-
     audioPlayer.setAudioSource(
       ConcatenatingAudioSource(
         children: [
@@ -64,6 +67,7 @@ class _SongScreenState extends State<SongScreen> {
           Container(
             decoration: BoxDecoration(color: Color(0xff151521)),
             width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -119,7 +123,7 @@ class _MusicPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 420, left: 30, right: 30),
+      padding: const EdgeInsets.only(top: 420, left: 30, right: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +139,7 @@ class _MusicPlayer extends StatelessWidget {
                     ),
               ),
               SizedBox(
-                width: 275,
+                width: 250,
               ),
               LikeButton(
                 likeBuilder: (isTapped) {
