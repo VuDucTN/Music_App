@@ -2,31 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music/Widgets/player_buttons.dart';
-import 'package:music/models/playlist_model.dart';
+import 'package:music/Widgets/seekbar.dart';
+import 'package:music/models/song_model.dart';
 import 'package:rxdart/rxdart.dart' as rxdart;
 import 'package:like_button/like_button.dart';
 
-import '../Widgets/seekbar.dart';
-import '../models/song_model.dart';
-
-class SongScreen extends StatefulWidget {
-  const SongScreen({Key? key}) : super(key: key);
-  static const routeName = "/Song";
+class SongScreen2 extends StatefulWidget {
+  const SongScreen2({Key? key}) : super(key: key);
+  static const routeName = "/Song2";
 
   @override
-  State<SongScreen> createState() => _SongScreenState();
+  State<SongScreen2> createState() => _SongScreenState();
 }
 
-class _SongScreenState extends State<SongScreen> {
+class _SongScreenState extends State<SongScreen2> {
   AudioPlayer audioPlayer = AudioPlayer();
-  List<Playlist> playlists = Playlist.playlist;
-  Song song = Get.arguments ?? Song.songs[index];
-
-  static get index => 0;
+  Song song = Get.arguments ?? Song.songs[2];
 
   @override
   void initState() {
     super.initState();
+
     audioPlayer.setAudioSource(
       ConcatenatingAudioSource(
         children: [

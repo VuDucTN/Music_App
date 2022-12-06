@@ -1,10 +1,10 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:like_button/like_button.dart';
+import 'package:music/models/playlist_model.dart';
 import 'package:music/page/Song_screen.dart';
+import 'package:music/page/Song_screen/Song_screen1.dart';
+import 'package:music/page/Song_screen/Song_screen2.dart';
 import '../models/song_model.dart';
 import 'package:get/get.dart';
 
@@ -16,9 +16,11 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
+  List<Playlist> playlists = Playlist.playlist;
   Song song = Get.arguments ?? Song.songs[0];
 
   int activeTab = 0;
+  bool isPressed = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +29,8 @@ class _FavoriteState extends State<Favorite> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-            Color(0xFF303151).withOpacity(0.6),
-            Color(0xFF303151).withOpacity(0.9),
+            Color(0xff151521).withOpacity(0.6),
+            Color(0xff151521).withOpacity(0.9),
           ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -42,15 +44,18 @@ class _FavoriteState extends State<Favorite> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () {
-                          // Navigation.pop(Contend);
-                        },
-                        child: Icon(
-                          Icons.favorite,
-                          color: Color(0xFF899CCF),
-                          size: 30,
-                        ),
-                      ),
+                          onTap: () {},
+                          child: LikeButton(
+                            likeBuilder: (isTapped) {
+                              return Icon(
+                                Icons.favorite,
+                                color: isTapped
+                                    ? Color(0xff24EBCA)
+                                    : Color(0xFF899CCF),
+                                size: 30,
+                              );
+                            },
+                          )),
                       ClipRRect(
                           child: Image.asset(
                         'images/Elip3.png',
@@ -59,13 +64,19 @@ class _FavoriteState extends State<Favorite> {
                         fit: BoxFit.cover,
                       )),
                       InkWell(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.more_horiz,
-                          color: Color(0xFF899CCF),
-                          size: 30,
-                        ),
-                      ),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.only(),
+                            child: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(child: Icon(Icons.download)),
+                              ],
+                              child: Icon(
+                                Icons.more_horiz,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -74,42 +85,130 @@ class _FavoriteState extends State<Favorite> {
                 ),
                 Column(
                   children: [
-                    SizedBox(height: 15),
-                    Container(
-                      margin: EdgeInsets.only(top: 15, right: 12, left: 5),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF30314D),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  song.title,
-                                  style: TextStyle(
-                                    color: Color(0xff24EBCA),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: playlists.length,
+                        itemBuilder: ((context, index) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: Image.asset(
+                                      playlists[index].image,
+                                      height: 50,
+                                      width: 50,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  song.description,
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8),
-                                    fontSize: 16,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            playlists[index].title,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                          ),
+                                          Text(
+                                            playlists[index].name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SongScreen2()),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.play_circle,
+                                      color: Colors.greenAccent,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          IconButton(
+                          );
+                        })),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset(
+                                song.coverUrl,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      song.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                    ),
+                                    Text(
+                                      song.description,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                          ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            IconButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -117,15 +216,15 @@ class _FavoriteState extends State<Favorite> {
                                       builder: (context) => SongScreen()),
                                 );
                               },
-                              icon: Icon(
-                                Icons.play_arrow,
-                                color: activeTab == 1
-                                    ? Color(0xff24CBCA)
-                                    : Colors.white,
-                              ))
-                        ],
+                              icon: const Icon(
+                                Icons.play_circle,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 )
               ],

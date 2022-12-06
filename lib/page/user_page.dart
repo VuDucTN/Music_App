@@ -3,9 +3,11 @@ import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:music/page/login_page.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
+  static const routeName = "/User";
 
   @override
   State<UserPage> createState() => _UserPageState();
@@ -16,12 +18,13 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff151521),
-      body: getBody(),
+      body: getBody(context),
     );
   }
 }
 
-Widget getBody() {
+Widget getBody(BuildContext context) {
+  final args = ModalRoute.of(context)?.settings.arguments as User;
   return Container(
     child: Stack(children: [
       Align(
@@ -38,7 +41,7 @@ Widget getBody() {
                   height: 20,
                 ),
                 Text(
-                  "Person",
+                  args.name,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )
@@ -64,11 +67,19 @@ Widget getBody() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Name",
+                        args.name,
                         style: TextStyle(color: Colors.white),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage(
+                                        title: '',
+                                      )),
+                            );
+                          },
                           icon: Icon(
                             Icons.arrow_right,
                             color: Colors.white,
@@ -79,7 +90,7 @@ Widget getBody() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Email",
+                        args.email,
                         style: TextStyle(color: Colors.white),
                       ),
                       IconButton(

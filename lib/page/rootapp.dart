@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:music/page/Song_screen.dart';
-import 'package:music/page/dowload_page.dart';
-import 'package:music/page/favorite_page.dart';
-import 'package:music/page/home.dart';
-import 'package:music/page/user_page.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key? key}) : super(key: key);
-  static const routeName = "/RootApp";
 
   @override
   State<RootApp> createState() => _RootAppState();
@@ -28,11 +22,41 @@ class _RootAppState extends State<RootApp> {
     return IndexedStack(
       index: activeTab,
       children: [
-        HomePage(),
-        Favorite(),
-        SongScreen(),
-        DowloadPage(),
-        UserPage(),
+        Center(
+          child: Text(
+            "Home",
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Center(
+          child: Text(
+            "Favorite",
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Center(
+          child: Text(
+            "Play",
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Center(
+          child: Text(
+            "Dowload",
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Center(
+          child: Text(
+            "User",
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
       ],
     );
   }

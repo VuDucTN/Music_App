@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music/page/login_page.dart';
 import 'package:music/page/root_app.dart';
 
 class DownloadScreen extends StatelessWidget {
@@ -54,7 +55,8 @@ class DownloadScreen extends StatelessWidget {
               alignment: Alignment(0.85, 0.9),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(RootApp.routeName);
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginPage.routeName);
                 },
                 child: Text("Next"),
               ),
