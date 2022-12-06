@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         SongScreen1.routeName: (context) => SongScreen1(),
         LoginPage.routeName: (context) => LoginPage(title: 'login'),
         UserPage.routeName: (context) => UserPage()
+        SongScreen1.routeName: (context) => SongScreen1()
       },
     );
   }
